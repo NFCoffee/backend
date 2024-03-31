@@ -5,12 +5,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.inu.nfcoffee.common.BaseTimeEntity;
 
 @Entity
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
-public class Employee {
+public class Employee extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
