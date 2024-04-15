@@ -1,5 +1,6 @@
 package org.inu.nfcoffee.employee.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.inu.nfcoffee.employee.dto.CreateWallerRequest;
 import org.inu.nfcoffee.employee.dto.FinishSignRequest;
@@ -16,19 +17,19 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping("/sign")
-    public ResponseEntity<?> sign(@RequestBody SignRequest request) {
-        employeeService.sign(request);
+    public ResponseEntity<?> sign(@Valid @RequestBody SignRequest request) {
+        employeeService.signUp(request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/finish-sign")
-    public ResponseEntity<?> finishSign(@RequestBody FinishSignRequest request) {
+    public ResponseEntity<?> finishSign(@Valid @RequestBody FinishSignRequest request) {
         employeeService.finishSign(request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/wallet")
-    public ResponseEntity<?> finishSign(@RequestBody CreateWallerRequest request) {
+    public ResponseEntity<?> finishSign(@Valid @RequestBody CreateWallerRequest request) {
         employeeService.updateWallet(request);
         return ResponseEntity.ok().build();
     }
