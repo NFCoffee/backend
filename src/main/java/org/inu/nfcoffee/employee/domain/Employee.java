@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.inu.nfcoffee.common.BaseTimeEntity;
 import org.inu.nfcoffee.common.ErrorCode;
+import org.inu.nfcoffee.exception.AuthCodeExpiredException;
 import org.inu.nfcoffee.exception.DuplicateSignException;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Setter
@@ -23,33 +26,37 @@ public class Employee extends BaseTimeEntity {
     private String employeeId;
     private String email;
     private String wallet;
+    @Getter
     private boolean signed;
-    private String authEmailCode;
+    private String authCode;
+    private LocalDateTime authCodeExpired;
 
-    private Employee(String employeeId, String email) {
+    public Employee(String employeeId, String email) {
         this.employeeId = employeeId;
         this.email = email;
         this.wallet = "";
         this.signed = false;
-        this.authEmailCode = "";
+        this.authCode = "";
+        this.authCodeExpired = LocalDateTime.MIN;
     }
 
-    public boolean isSigned() {
-        return signed;
-    }
 
     public void signing(String code) {
-        if (!code.equals(authEmailCode)) {
+        if (!code.equals(authCode)) {
             throw new IllegalArgumentException(ErrorCode.NOT_MATCH_AUTH_CODE.description());
+        }
+        if (authCodeExpired.isBefore(LocalDateTime.now())) {
+            throw new AuthCodeExpiredException(ErrorCode.EXPIRED_AUTH_CODE);
         }
         signed = true;
     }
 
-    public void assignAuthEmailCode(String authEmailCode) {
+    public void assignAuthEmailCode(String authEmailCode, LocalDateTime authCodeExpired) {
         if (signed) {
             throw new DuplicateSignException(ErrorCode.DUPLICATE_SIGN);
         }
-        this.authEmailCode = authEmailCode;
+        this.authCode = authEmailCode;
+        this.authCodeExpired = authCodeExpired;
     }
 
     public void fixWallet(String wallet) {
@@ -59,3 +66,4 @@ public class Employee extends BaseTimeEntity {
         this.wallet = wallet;
     }
 }
+
