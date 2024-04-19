@@ -7,10 +7,12 @@ import org.inu.nfcoffee.employee.dto.CreateWallerRequest;
 import org.inu.nfcoffee.employee.dto.FinishSignRequest;
 import org.inu.nfcoffee.employee.dto.SignRequest;
 import org.inu.nfcoffee.exception.DuplicateSignException;
-import org.inu.nfcoffee.employee.repository.EmployeeRepository;
+import org.inu.nfcoffee.employee.domain.EmployeeRepository;
 import org.inu.nfcoffee.exception.EntityNotFoundException;
 import org.inu.nfcoffee.smtp.MailService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.EMPTY_EMPLOYEE_INFO));
 
         String code = String.valueOf(mailService.sendMail(request.getEmail()));
-        employee.assignAuthEmailCode(code);
+        employee.assignAuthEmailCode(code, LocalDateTime.now().plusMinutes(15));
         employeeRepository.save(employee);
     }
 
