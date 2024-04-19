@@ -1,6 +1,5 @@
-package org.inu.nfcoffee.employee.repository;
+package org.inu.nfcoffee.employee.domain;
 
-import org.inu.nfcoffee.employee.domain.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
