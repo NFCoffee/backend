@@ -3,11 +3,11 @@ package org.inu.nfcoffee.employee.service;
 import lombok.RequiredArgsConstructor;
 import org.inu.nfcoffee.common.ErrorCode;
 import org.inu.nfcoffee.employee.domain.Employee;
-import org.inu.nfcoffee.employee.dto.CreateWallerRequest;
+import org.inu.nfcoffee.employee.domain.EmployeeRepository;
+import org.inu.nfcoffee.employee.dto.CreateWalletRequest;
 import org.inu.nfcoffee.employee.dto.FinishSignRequest;
 import org.inu.nfcoffee.employee.dto.SignRequest;
 import org.inu.nfcoffee.exception.DuplicateSignException;
-import org.inu.nfcoffee.employee.domain.EmployeeRepository;
 import org.inu.nfcoffee.exception.EntityNotFoundException;
 import org.inu.nfcoffee.smtp.MailService;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class EmployeeService {
         }
     }
 
-    public void updateWallet(CreateWallerRequest request) {
+    public void updateWallet(CreateWalletRequest request) {
         String id = request.getEmployeeId();
         Employee employee = employeeRepository.findByEmployeeId(id)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.EMPTY_EMPLOYEE_INFO));
