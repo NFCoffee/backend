@@ -5,8 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class CreateWallerRequest {
-    @Email @NotBlank
+public class CreateWalletRequest {
+    @Email
+    @NotBlank
     private String email;
     @NotBlank
     private String employeeId;
