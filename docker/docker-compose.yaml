@@ -15,4 +15,17 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - .db/mysql/data:/var/lib/mysql
+  spring:
+    image: jnamu/nfcoffee
+    container_name: spring
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_CONFIG_LOCATION= /home/ubuntu/config/application.properties
+    volumes:
+      - ./config:/home/ubuntu/config
+
+
+
 
